@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMS Chatbot</title>
+    <style>
+        /* Apply a gradient background with smooth animation */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Chat container styles */
+        .chat-container {
+            width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-container h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Message input and button styles */
+        .message-box {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Response section styles */
+        .response {
+            margin-top: 20px;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Mock data generation section */
+        .mock-data {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            text-align: center;
+        }
+
+        .mock-data button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mock-data button:hover {
+            background-color: #0056b3;
+        }
+
+        #mock-data-output {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>MMS Chatbot</h1>
+        <form method="POST" action="/predict">
+            <textarea name="user_input" class="message-box" placeholder="Type your message here..."></textarea>
+            <button type="submit" class="submit-btn">Send</button>
+        </form>
+
+        <!-- Render user input and bot response -->
+        {% if bot_response %}
+            <div class="response">
+                <strong>You:</strong> {{ user_input }}<br>
+                <strong>Bot:</strong> {{ bot_response }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Mock Data Generation -->
+    <div class="mock-data">
+        <button onclick="generateMockData()">Generate Mock Data</button>
+        <div id="mock-data-output"></div>
+    </div>
+
+    <script>
+        function generateMockData() {
+            fetch('/mock_data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('mock-data-output').innerHTML = `
+                        <p><strong>Username:</strong> ${data.username}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        <p><strong>Password:</strong> ${data.password}</p>
+                        <p><strong>Address:</strong> ${data.address}</p>
+                    `;
+                });
+        }
+    </script>
+</body>
+</html>
